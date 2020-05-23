@@ -1,15 +1,16 @@
 import { SfzRegion } from "./types";
 
-export default function(sfzText: string): SfzRegion[] {
+export default function (sfzText: string): SfzRegion[] {
   sfzText = sfzText.replace(/\/\/.*$/gm, "");
   return matchAll(sfzText, /<(.*?)>\s([\s\S]*?)((?=<)|\Z)/gm).map((res) => {
-    const kvs = matchAll(res[2], /(.*?)=(.*?)(\s|$)/gm);
+    const kvs = matchAll(res[2], /(.*?)=(.*?)($|\s(?=.*?=))/gm);
     const prop: any = {};
     kvs.forEach((kv) => {
       prop[kv[1].replace(/\s/gm, "")] = /^\d*$/g.test(kv[2])
         ? Number(kv[2])
         : kv[2];
     });
+    if (prop.sample) prop.sample = prop.sample.replace(/\\/g, "/");
     return {
       type: res[1],
       property: prop,

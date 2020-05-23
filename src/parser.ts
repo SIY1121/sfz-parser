@@ -1,6 +1,6 @@
 import { SfzRegion } from "./types";
 
-export function parseSFZ(sfzText: string): SfzRegion[] {
+export default function(sfzText: string): SfzRegion[] {
   sfzText = sfzText.replace(/\/\/.*$/gm, "");
   return matchAll(sfzText, /<(.*?)>\s([\s\S]*?)((?=<)|\Z)/gm).map((res) => {
     const kvs = matchAll(res[2], /(.*?)=(.*?)(\s|$)/gm);

@@ -6,9 +6,9 @@ export default function(sfzText: string): SfzRegion[] {
     const kvs = matchAll(res[2], /(.*?)=(.*?)(\s|$)/gm);
     const prop: any = {};
     kvs.forEach((kv) => {
-      prop[kv[1].replace(/\s/gm, "")] = isNaN(parseInt(kv[2]))
-        ? kv[2]
-        : Number(kv[2]);
+      prop[kv[1].replace(/\s/gm, "")] = /^\d*$/g.test(kv[2])
+        ? Number(kv[2])
+        : kv[2];
     });
     return {
       type: res[1],

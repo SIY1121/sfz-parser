@@ -1,0 +1,17 @@
+{
+  "name": "sfz-parser",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "private": false,
+  "files": ["dist"],
+  "devDependencies": {
+    "@types/node": "^14.0.5",
+    "ts-node": "^8.10.1",
+    "typescript": "^3.9.3"
+  },
+  "scripts": {
+    "start": "ts-node src/test.ts",
+    "build": "tsc --declaration"
+  }
+}

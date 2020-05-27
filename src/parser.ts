@@ -9,7 +9,7 @@ export function transform(sfzText: string): SfzSection[] {
       prop[kv[1].replace(/\s/gm, "")] = /^\d*$/g.test(kv[2])
         ? Number(kv[2])
         : kv[2];
-      if (/^[a-g]#?\d$/.test(kv[2])) prop[kv[1]] = name2num(kv[2]);
+      if (/^[a-gA-G]#?\d$/.test(kv[2])) prop[kv[1]] = name2num(kv[2]);
     });
     if (prop.sample) prop.sample = prop.sample.replace(/\\/g, "/");
     return {
@@ -49,9 +49,9 @@ function matchAll(str: string, regexp: RegExp) {
 }
 
 function name2num(name: string): number {
-  const tmp = name.match(/^([a-g])(#?)(\d)$/);
+  const tmp = name.match(/^([a-gA-G])(#?)(\d)$/);
   if (!tmp) return -1;
-  const d = tmp[1];
+  const d = tmp[1].toLowerCase();
   const s = tmp[2];
   const o = Number(tmp[3]);
   let res = (o + 1) * 12 + (s === "#" ? 1 : 0);

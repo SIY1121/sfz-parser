@@ -202,7 +202,11 @@ export interface Opcodes {
   effect2?: number;
 }
 
-export interface SfzRegion {
-  type: string;
+export type SfzHeaders = 'region' | 'group' | 'control' | 'global' | 'curve' | 'effect' | 'master' | 'midi' | 'sample'
+
+export interface SfzSection {
+  type: SfzHeaders;
   property: Opcodes;
 }
+
+export interface SfzRegion extends Opcodes {}

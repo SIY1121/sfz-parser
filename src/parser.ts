@@ -1,6 +1,6 @@
-import { SfzRegion } from "./types";
+import { SfzSection, SfzHeaders, SfzRegion } from "./types";
 
-export default function (sfzText: string): SfzRegion[] {
+export function transform(sfzText: string): SfzSection[] {
   sfzText = sfzText.replace(/\/\/.*$/gm, "");
   return matchAll(sfzText, /<(.*?)>\s([\s\S]*?)((?=<)|\Z)/gm).map((res) => {
     const kvs = matchAll(res[2], /(.*?)=(.*?)($|\s(?=.*?=))/gm);
@@ -12,12 +12,31 @@ export default function (sfzText: string): SfzRegion[] {
       if (/^[a-g]#?\d$/.test(kv[2])) prop[kv[1]] = name2num(kv[2]);
     });
     if (prop.sample) prop.sample = prop.sample.replace(/\\/g, "/");
-
     return {
-      type: res[1],
+      type: res[1] as SfzHeaders,
       property: prop,
     };
   });
+}
+
+function applyScopeHeaders(sfz: SfzSection[]): SfzRegion[] {
+  let global: SfzSection;
+  let group: SfzSection;
+  return sfz
+    .map((s) => {
+      if (s.type === "global") global = s;
+      else if (s.type === "group") group = s;
+      else {
+        if (global) s.property = { ...s.property, ...global.property };
+        if (group) s.property = { ...s.property, ...group.property };
+        return s.property;
+      }
+    })
+    .filter((s) => typeof s !== "undefined") as SfzRegion[];
+}
+
+export function parseSFZ(sfzText: string): SfzRegion[] {
+  return applyScopeHeaders(transform(sfzText))
 }
 
 function matchAll(str: string, regexp: RegExp) {

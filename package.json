@@ -1,10 +1,11 @@
 {
   "name": "sfz-parser",
-  "version": "0.0.3",
+  "version": "0.0.7",
   "license": "MIT",
   "private": false,
   "files": ["dist"],
-  "main": "dist/parser.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "devDependencies": {
     "@types/node": "^14.0.5",
     "ts-node": "^8.10.1",

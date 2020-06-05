@@ -81,7 +81,7 @@ export interface Opcodes {
   pitchlfo_freqccN?: number;
   pitchlfo_freqchanaft?: number;
   pitchlfo_freqpolyaft?: number;
-  fil?: string;
+  fil_type?: string;
   cutoff?: number;
   cutoff_ccN?: number;
   cutoff_chanaft?: number;
